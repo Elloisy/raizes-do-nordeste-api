@@ -79,7 +79,8 @@ public class PedidoService {
         pagamento.confirmarPagamento("MOCK-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase());
 
         pedido.setStatus(StatusPedido.EM_PREPARO);
-        pedido.getUsuario().setPontosFidelidade(pedido.getUsuario().getPontosFidelidade() + 10);
+        Integer pontosAtuais = pedido.getUsuario().getPontosFidelidade() != null ? pedido.getUsuario().getPontosFidelidade() : 0;
+        pedido.getUsuario().setPontosFidelidade(pontosAtuais + 10);
 
         pedidoRepository.save(pedido);
         return pagamentoRepository.save(pagamento);
