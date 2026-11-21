@@ -20,22 +20,24 @@ API Desenvolvida para gestão completa da empresa Raízes do Nordeste
 4. Como executar:
 -Clone o repositório:
 ```bash
-   git clone [https://github.com/Elloisy/raizes-do-nordeste-api.git](https://github.com/Elloisy/raizes-do-nordeste-api.git)
+git clone https://github.com/Elloisy/raizes-do-nordeste-api.git
+```
    
    
 4.1 Configure o acesso ao seu MySQL no arquivo
 
 src/main/resources/application.properties:
 
-spring.datasource.url=jdbc:mysql://localhost:3306/raizes_nordeste?createDatabaseIfNotExist=true&serverTimezone=UTC
+```spring.datasource.url=jdbc:mysql://localhost:3306/raizes_nordeste?createDatabaseIfNotExist=true&serverTimezone=UTC
 spring.datasource.username=root
-spring.datasource.password=SUA_SENHA
+spring.datasource.password=SUA_SENHA```
 
 (O banco de dados e tabelas serão criados automaticamente pelo hibernate na primeira execução)
 
 4.2 Execute a classe principal ApiApplication.java pela IDE ou via Maven:
+```bash
 ./mvnw spring-boot:run
-
+```
 4.3 A API estará disponível em http://localhost:8080
 
 5. Autenticação:
@@ -45,7 +47,7 @@ A API utiliza HTTP Basic Auth (stateless):
 
 6. Endpoints Principais:
 
-- Unidades e Estoque
+- Unidades e Estoque:
 
 -- GET /api/unidades — Lista todas as unidades cadastradas
 
@@ -55,20 +57,20 @@ A API utiliza HTTP Basic Auth (stateless):
 
 -- POST /api/unidades/estoque — Cadastra o estoque de um produto na unidade
 
-- Produtos
+- Produtos:
 -- GET /api/produtos — Lista todos os produtos ativos
 
 -- POST /api/produtos — Cadastra um novo produto
 
-- Usuários
+- Usuários:
 
 --GET /api/usuarios — Lista todos os usuários
 
 -- POST /api/usuarios — Cadastra um novo usuário
 
-- Pedidos e Pagamento Mock
+- Pedidos e Pagamento Mock:
 
--- POST /api/pedidos — Cria um pedido (valida e decrementa o estoque na unidade e calcula o valor total)
+-- POST /api/pedidos — Cria um pedido (valida o estoque na unidade e calcula o valor total)
 
 -- GET /api/pedidos/{id} — Consulta um pedido por ID
 
