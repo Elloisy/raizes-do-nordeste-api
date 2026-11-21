@@ -21,3 +21,16 @@ API Desenvolvida para gestão completa da empresa Raízes do Nordeste
 -Clone o repositório:
 ```bash
    git clone [https://github.com/Elloisy/raizes-do-nordeste-api.git](https://github.com/Elloisy/raizes-do-nordeste-api.git)
+   
+   
+4.1 Configure o acesso ao seu MySQL no arquivo
+
+src/main/resources/application.properties:
+
+"Properties
+spring.datasource.url=jdbc:mysql://localhost:3306/raizes_nordeste?createDatabaseIfNotExist=true&serverTimezone=UTC
+spring.datasource.username=root
+spring.datasource.password=SUA_SENHA"
+
+(O banco de dados e tabelas serão criados automaticamente pelo hibernate na primeira execução)
+
