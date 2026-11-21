@@ -30,7 +30,8 @@ src/main/resources/application.properties:
 
 ```spring.datasource.url=jdbc:mysql://localhost:3306/raizes_nordeste?createDatabaseIfNotExist=true&serverTimezone=UTC
 spring.datasource.username=root
-spring.datasource.password=SUA_SENHA```
+spring.datasource.password=SUA_SENHA
+```
 
 (O banco de dados e tabelas serão criados automaticamente pelo hibernate na primeira execução)
 
