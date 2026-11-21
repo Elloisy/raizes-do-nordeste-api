@@ -1,6 +1,7 @@
 package com.raizes.api.service;
 
 import com.raizes.api.domain.*;
+
 import com.raizes.api.domain.enums.*;
 import com.raizes.api.dto.*;
 import com.raizes.api.repository.*;
@@ -9,6 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
+import com.raizes.api.domain.enums.CanalPedido;
 
 import java.util.UUID;
 
@@ -91,5 +95,12 @@ public class PedidoService {
         Pedido pedido = buscarPorId(pedidoId);
         pedido.setStatus(novoStatus);
         return pedidoRepository.save(pedido);
+    }
+    
+    public List<Pedido> listarPedidos(CanalPedido canalPedido) {
+        if (canalPedido != null) {
+            return pedidoRepository.findByCanalPedido(canalPedido);
+        }
+        return pedidoRepository.findAll();
     }
 }

@@ -1,5 +1,10 @@
 package com.raizes.api.domain.enums;
 
 public enum CanalPedido {
-	APP, SITE, BALCAO
+	APP,
+    TOTEM,
+    BALCAO,
+    PICKUP,
+    WEB,
+    SITE
 }

@@ -11,6 +11,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import com.raizes.api.domain.enums.CanalPedido;
+
+import org.springframework.http.ResponseEntity;
+
 @RestController
 @RequestMapping("/api/pedidos")
 @RequiredArgsConstructor
@@ -37,5 +42,10 @@ public class PedidoController {
     @PatchMapping("/{id}/status")
     public Pedido atualizarStatus(@PathVariable Long id, @RequestBody @Valid AtualizarStatusRequest request) {
         return pedidoService.atualizarStatus(id, request.novoStatus());
+    }
+    
+    @GetMapping
+    public ResponseEntity<List<Pedido>> listar(@RequestParam(required = false) CanalPedido canalPedido) {
+        return ResponseEntity.ok(pedidoService.listarPedidos(canalPedido));
     }
 }
