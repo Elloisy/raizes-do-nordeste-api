@@ -77,6 +77,13 @@ public class PedidoService {
     public PagamentoMock processarPagamentoMock(Long pedidoId, PagamentoRequest request) {
         Pedido pedido = buscarPorId(pedidoId);
 
+        if (Boolean.TRUE.equals(request.simularRecusa())) {
+            throw new ResponseStatusException(
+                    HttpStatus.UNPROCESSABLE_CONTENT,
+                    "Pagamento recusado pela operadora mock."
+            );
+        }
+
         PagamentoMock pagamento = new PagamentoMock();
         pagamento.setPedido(pedido);
         pagamento.setFormaPagamento(request.formaPagamento());
