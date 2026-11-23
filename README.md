@@ -52,9 +52,9 @@ Seed (Dados Iniciais): Os perfis de acesso padrão (admin/admin com papel ADMIN 
 5. Como Iniciar a API
 Via terminal (Maven Wrapper):
 
-'''
+```bash
 ./mvnw spring-boot:run
-'''
+```
 (Ou execute a classe principal com.raizes.api.ApiApplication diretamente pela ide.)
 
 A API estará disponível em: http://localhost:8080
@@ -70,9 +70,9 @@ Especificação OpenAPI (JSON): http://localhost:8080/v3/api-docs
 7.1. Testes Automatizados (Maven / JUnit)
 Para executar a suíte de testes unitários/contexto do Spring boot:
 
-'''
+```bash
 ./mvnw test
-'''
+```
 
 7.2. Testes de API / Integração (Postman — 14 cenários)
 Importe o arquivo da coleção disponível neste repositório: ./raizes-do-nordeste.postman.json.
