@@ -1,80 +1,98 @@
-# Raízes do Nordeste — API REST
+# API REST — Raízes do Nordeste
 
-API Desenvolvida para gestão completa da empresa Raízes do Nordeste
- 
-1. API REST desenvolvida em Java com Spring Boot para gestão de unidades, cardápio, controle de estoque por unidade, pedidos, pagamento simulado (mock) e programa de pontos de fidelidade.
+API Back-End desenvolvida em **Java com Spring Boot** para a rede de restaurantes **Raízes do Nordeste** (Projeto Multidisciplinar — Trilha Back-End / ADS — UNINTER).
 
-2. Tecnologias utilizadas:
--Java 17/21
--Spring Boot (Web, Data JPA, Security, Validation)
--MySQL 8
--Hibernate ORM
--Lombok
--Maven
+---
 
-3. Pré-requisitos:
--JDK 17 ou superior
--MySQL Server rodando na porta padrão (3306)
--Postman para testes dos endpoints
+## 1. Requisitos (Linguagem, Versão, Banco e Dependências)
 
-4. Como executar:
--Clone o repositório:
-```bash
+* **Linguagem:** Java 17 ou superior (recomendado Java 21 LTS)
+* **Framework:** Spring Boot 3.x
+* **Gerenciador de Build/Dependências:** Apache Maven 3.9+ (ou Maven Wrapper `./mvnw` incluso no projeto)
+* **Banco de Dados:** Relacional (PostgreSQL / MySQL / H2 — configurado via `application.properties`)
+* **Principais Dependências (`pom.xml`):**
+  * `spring-boot-starter-web` (API REST)
+  * `spring-boot-starter-data-jpa` (ORM / Persistência)
+  * `spring-boot-starter-validation` (Validação de DTOs com `@Valid`)
+  * `spring-boot-starter-security` (Autenticação HTTP Basic, perfis `ADMIN`/`CLIENTE` e hash `BCrypt`)
+  * `springdoc-openapi-starter-webmvc-ui` (Documentação Swagger / OpenAPI 3)
+
+---
+
+## 2. Como Configurar Variáveis de Ambiente
+
+1. Localize o arquivo `.env.example` na raiz do repositório.
+2. Crie uma cópia renomeada para `.env` (ou configure as mesmas chaves diretamente em `src/main/resources/application.properties` / variáveis de ambiente do sistema):
+   ```bash
+   cp .env.example .env
+   
+Preencha os valores de DB_URL, DB_USERNAME e DB_PASSWORD de acordo com o seu banco local.
+
+3. Como Instalar as Dependências
+Clone o repositório e execute o Maven para baixar todas as dependências do pom.xml:
+
+'''
 git clone https://github.com/Elloisy/raizes-do-nordeste-api.git
-```
-   
-   
-4.1 Configure o acesso ao seu MySQL no arquivo
+cd api
+./mvnw clean install -DskipTests
+'''
 
-src/main/resources/application.properties:
+(No Windows PowerShell/CMD, utilize mvnw.cmd clean install -DskipTests.)
 
-```spring.datasource.url=jdbc:mysql://localhost:3306/raizes_nordeste?createDatabaseIfNotExist=true&serverTimezone=UTC
-spring.datasource.username=root
-spring.datasource.password=SUA_SENHA
-```
+4. Como Criar o Banco de Dados e Executar Migrations / Seed
+Criação do banco: Caso utilize PostgreSQL ou MySQL local, crie o banco de dados antes de iniciar a aplicação:
 
-(O banco de dados e tabelas serão criados automaticamente pelo hibernate na primeira execução)
+SQL
+CREATE DATABASE raizes_nordeste;
 
-4.2 Execute a classe principal ApiApplication.java pela IDE ou via Maven:
-```bash
+Migrations (DDL automático): As tabelas (usuario, unidades, produtos, estoque_unidade, pedidos, itens_pedido e pagamentos_mock) são criadas e atualizadas automaticamente pelo Hibernate / Spring Data JPA (spring.jpa.hibernate.ddl-auto=update) na primeira inicialização da API.
+
+Seed (Dados Iniciais): Os perfis de acesso padrão (admin/admin com papel ADMIN e cliente/cliente com papel CLIENTE) são carregados automaticamente em memória pelo SecurityConfig com criptografia BCrypt. Os demais dados de negócio (unidades, produtos, estoque e pedidos) podem ser criados em sequência usando a coleção do Postman.
+
+5. Como Iniciar a API
+Via terminal (Maven Wrapper):
+
+'''
 ./mvnw spring-boot:run
-```
-4.3 A API estará disponível em http://localhost:8080
+'''
+(Ou execute a classe principal com.raizes.api.ApiApplication diretamente pela ide.)
 
-5. Autenticação:
-A API utiliza HTTP Basic Auth (stateless):
-- Usuário: admin
-- Senha: admin
+A API estará disponível em: http://localhost:8080
 
-6. Endpoints Principais:
+6. Como Acessar a Documentação (Swagger / OpenAPI)
+Com a aplicação em execução, acesse:
 
-- Unidades e Estoque:
+Swagger UI (interativo): http://localhost:8080/swagger-ui/index.html
 
--- GET /api/unidades — Lista todas as unidades cadastradas
+Especificação OpenAPI (JSON): http://localhost:8080/v3/api-docs
 
--- POST /api/unidades — Cadastra uma nova unidade
+7. Como Rodar os Testes
+7.1. Testes Automatizados (Maven / JUnit)
+Para executar a suíte de testes unitários/contexto do Spring boot:
 
--- GET /api/unidades/{unidadeId}/estoque — Consulta o estoque de uma unidade
+'''
+./mvnw test
+'''
 
--- POST /api/unidades/estoque — Cadastra o estoque de um produto na unidade
+7.2. Testes de API / Integração (Postman — 14 cenários)
+Importe o arquivo da coleção disponível neste repositório: ./raizes-do-nordeste.postman.json.
 
-- Produtos:
--- GET /api/produtos — Lista todos os produtos ativos
+Com a API rodando em http://localhost:8080, execute as requisições na ordem da coleção para validar:
 
--- POST /api/produtos — Cadastra um novo produto
+Fluxo completo (MVP): Cadastro de Unidade, Produto, Estoque, Usuário, Pedido Multicanal (canalPedido: "TOTEM"), Pagamento mock aprovado, Atualização de Status e Filtro por Canal (GET /api/pedidos?canalPedido=TOTEM).
 
-- Usuários:
+Cenários de Segurança e Erro JSON padronizado: 401 (sem autenticação), 403 (cliente sem permissão), 400 (validação), 404 (recurso não encontrado), 409 (estoque insuficiente) e 422 (pagamento mock recusado).
 
---GET /api/usuarios — Lista todos os usuários
+8. Evidências e Entregáveis no Repositório
+Repositório GitHub: https://github.com/Elloisy/raizes-do-nordeste-api
 
--- POST /api/usuarios — Cadastra um novo usuário
+Swagger Local: http://localhost:8080/swagger-ui/index.html
 
-- Pedidos e Pagamento Mock:
+Coleção Postman (14 cenários): ./raizes-do-nordeste.postman.json
 
--- POST /api/pedidos — Cria um pedido (valida o estoque na unidade e calcula o valor total)
+Modelo de Dados (DER): ./DER.pdf
 
--- GET /api/pedidos/{id} — Consulta um pedido por ID
+9. Autora
+Elloisy Andrade de Oliveira Almeida — RU: 4867483
 
--- POST /api/pedidos/{id}/pagamento — Processa o pagamento simulado, altera o status do pedido para EM_PREPARO e credita +10 pontos de fidelidade ao cliente
-
--- PATCH /api/pedidos/{id}/status — Atualiza o status do pedido (RECEBIDO, EM_PREPARO, PRONTO, ENTREGUE, CANCELADO)
+Análise e Desenvolvimento de Sistemas — UNINTER (2026)
