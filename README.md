@@ -31,11 +31,11 @@ Preencha os valores de DB_URL, DB_USERNAME e DB_PASSWORD de acordo com o seu ban
 3. Como Instalar as Dependências
 Clone o repositório e execute o Maven para baixar todas as dependências do pom.xml:
 
-'''
+```bash
 git clone https://github.com/Elloisy/raizes-do-nordeste-api.git
 cd api
 ./mvnw clean install -DskipTests
-'''
+```
 
 (No Windows PowerShell/CMD, utilize mvnw.cmd clean install -DskipTests.)
 
